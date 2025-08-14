@@ -1,16 +1,20 @@
-body{
-    background-color: rgb(228, 169, 51);
+body {
+    background-color: rgb(50, 138, 87);
 
 }
-p{
+
+p {
     color: rgb(134, 33, 196);
 }
-#uno{
+
+#uno {
     background-color: rgb(58, 63, 123);
 }
-.centrado{
+
+.centrado {
     text-align: center;
 }
-.negrita{
+
+.negrita {
     font-weight: bolder;
 }
