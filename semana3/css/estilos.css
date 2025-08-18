@@ -1,0 +1,13 @@
+body{
+    background-color: rgb(228, 169, 51);
+
+}
+p{
+    color: rgb(134, 33, 196);
+}
+#uno{
+    background-color: rgb(58, 63, 123);
+}
+.centrado{
+    text-align: center;
+}
