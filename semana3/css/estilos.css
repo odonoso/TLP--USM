@@ -1,10 +1,10 @@
 body {
-    background-color: rgb(50, 138, 87);
-
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: crimson;
 }
 
 p {
-    color: #666;
+    color: #101011;
 }
 
 #uno {
