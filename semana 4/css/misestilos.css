@@ -1,0 +1,45 @@
+body {
+    background-color: #1B998B;
+}
+
+div {
+    text-align: center;
+}
+
+.container-fluid {
+    background-color: #ffffff;
+}
+
+/*.col {background-color: #F46036;}*/
+
+.row {
+    height: 33vh;
+}
+
+#uno {
+    background-color: #C5D86D;
+}
+
+#dos {
+    background-color: #E71D36;
+}
+
+#tres {
+    background-color: #1B998B;
+}
+
+#cuatro {
+    background-color: #2E294E;
+}
+
+#cinco {
+    background-color: #F46036;
+}
+
+#seis {
+    background-color: #cde65e;
+}
+
+#pata {
+    height: 34vh;
+}
