@@ -20,6 +20,10 @@ div {
     background-color: #C5D86D;
 }
 
+#uno:hover {
+    background-color: #cce769;
+}
+
 #dos {
     background-color: #E71D36;
 }
