@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eventos - Smart Events</title>
+    <title id="detalle-titulo">Detalles del Evento</title>
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/mis_estilos.css">
 </head>
@@ -22,15 +22,22 @@
             </ul>
         </div>
     </nav>
-
-    <main>
-        <section class="eventos-section py-5">
-            <div class="container">
-                <h2 class="text-center mb-5">Próximos Eventos</h2>
-                <div id="eventos-container" class="row row-cols-1 row-cols-md-3 g-4">
-                    </div>
+    <main class="container py-5">
+        <div class="row">
+            <div class="col-md-6 text-center">
+                <img id="detalle-imagen" src="" class="img-fluid rounded" alt="Imagen del evento">
             </div>
-        </section>
+            <div class="col-md-6">
+                <h1 id="detalle-titulo-main"></h1>
+                <p><strong>Fecha y Hora:</strong> <span id="detalle-fecha"></span></p>
+                <p><strong>Lugar:</strong> <span id="detalle-lugar"></span></p>
+                <p><strong>Valor:</strong> <span id="detalle-valor"></span></p>
+                <hr>
+                <h3>Descripción</h3>
+                <p id="detalle-descripcion"></p>
+                <a href="eventos.html" class="btn btn-primary mt-3">Volver al listado</a>
+            </div>
+        </div>
     </main>
 
     <script src="js/bootstrap.js"></script>
