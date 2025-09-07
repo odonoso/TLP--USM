@@ -1,5 +1,5 @@
 function countdown() {
-    const countDownDate = new Date("2025-09-07T16:09:00").getTime();
+    const countDownDate = new Date("2025-09-07T19:55:00").getTime();
     
     function showEventStartedMessage() {
         const countdownContainer = document.getElementById("countdown-container");
@@ -34,30 +34,30 @@ function countdown() {
 const eventos = [
   {
     id: "uno", 
-    titulo: "Concierto Benéfico de Rock",
-    fechaHora: "25 de octubre, 20:00 hrs.",
-    lugar: "Teatro Municipal, Valparaíso",
-    valor: "$15.000 (pre-venta)",
+    titulo: "la gran fonda enjoy",
+    fechaHora: "17 de septiembre, 20:00 hrs.",
+    lugar: "en alguna parte de malasia (Maaaaan, idk)",
+    valor: "$15.000 (pre-venta)(shiii be expensive)",
     imagen: "img/evento_2.jpeg",
-    descripcion: "Únete a nosotros para una noche de música en vivo con las mejores bandas de rock de la región. Todo el dinero recaudado será donado a la fundación 'Música por un Sueño'."
+    descripcion: "Únete a nosotros para tiki tiki tiki uyuyuy pariente, comase una empanada, tomese un terremoto compaire."
   },
   {
     id: "dos", 
-    titulo: "Taller de Fotografía Digital",
+    titulo: "circo los paleta",
     fechaHora: "10 de noviembre, 11:00 hrs.",
-    lugar: "Sala de Talleres, Campus Central",
-    valor: "Gratuito",
+    lugar: "quillota... talvez... creo, talvez no",
+    valor: "Gratuito (bro this be broke boys man)",
     imagen: "img/evento_3.jpeg",
-    descripcion: "Aprende los fundamentos de la fotografía digital, desde la composición hasta la edición básica. Un experto te guiará en los primeros pasos para capturar imágenes increíbles."
+    descripcion: "According to all known laws of aviation, there is no way a bee should be able to fly."
   },
   {
     id: "tres", 
-    titulo: "Feria de Innovación Tecnológica",
+    titulo: "spring party",
     fechaHora: "15 de noviembre, 09:00 hrs.",
-    lugar: "Gimnasio Tech-Hub, Santiago",
+    lugar: "Fundo El Rebaño, Viña del Mar, Valparaíso",
     valor: "$5.000",
     imagen: "img/evento_4.jpeg",
-    descripcion: "Descubre las últimas tendencias en tecnología. Habrá demostraciones en vivo, charlas con líderes de la industria y la oportunidad de conectar con la comunidad tech."
+    descripcion: "fiesta"
   }
 ];
 
@@ -68,7 +68,7 @@ function cargarEventos() {
         eventos.forEach(evento => {
             htmlCards += `
                 <div class="col">
-                    <a href="detalles_evento.html?id=${evento.id}" class="card h-100 text-decoration-none text-dark">
+                    <a href="detalles_evento.html?id=${evento.id}" class="card h-100 text-decoration-none text-dark eventos-format">
                         <img src="${evento.imagen}" class="card-img-top" alt="${evento.titulo}">
                         <div class="card-body">
                             <h5 class="card-title">${evento.titulo}</h5>
