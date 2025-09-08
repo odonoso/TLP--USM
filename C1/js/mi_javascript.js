@@ -1,3 +1,4 @@
+// Funciones para todas las páginas
 function countdown() {
     const countDownDate = new Date("2025-09-07T16:09:00").getTime();
     function showEventStartedMessage() {
