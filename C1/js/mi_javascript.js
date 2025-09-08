@@ -1,6 +1,5 @@
 function countdown() {
-    const countDownDate = new Date("2025-09-07T19:55:00").getTime();
-    
+    const countDownDate = new Date("2025-09-07T16:09:00").getTime();
     function showEventStartedMessage() {
         const countdownContainer = document.getElementById("countdown-container");
         if (countdownContainer) {
@@ -34,33 +33,32 @@ function countdown() {
 const eventos = [
   {
     id: "uno", 
-    titulo: "la gran fonda enjoy",
-    fechaHora: "17 de septiembre, 20:00 hrs.",
-    lugar: "en alguna parte de malasia (Maaaaan, idk)",
-    valor: "$15.000 (pre-venta)(shiii be expensive)",
+    titulo: "Concierto Benéfico de Rock",
+    fechaHora: "25 de octubre, 20:00 hrs.",
+    lugar: "Teatro Municipal, Valparaíso",
+    valor: "$15.000 (pre-venta)",
     imagen: "img/evento_2.jpeg",
-    descripcion: "Únete a nosotros para tiki tiki tiki uyuyuy pariente, comase una empanada, tomese un terremoto compaire."
+    descripcion: "Únete a nosotros para una noche de música en vivo con las mejores bandas de rock de la región. Todo el dinero recaudado será donado a la fundación 'Música por un Sueño'."
   },
   {
     id: "dos", 
-    titulo: "circo los paleta",
+    titulo: "Taller de Fotografía Digital",
     fechaHora: "10 de noviembre, 11:00 hrs.",
-    lugar: "quillota... talvez... creo, talvez no",
-    valor: "Gratuito (bro this be broke boys man)",
+    lugar: "Sala de Talleres, Campus Central",
+    valor: "Gratuito",
     imagen: "img/evento_3.jpeg",
-    descripcion: "According to all known laws of aviation, there is no way a bee should be able to fly."
+    descripcion: "Aprende los fundamentos de la fotografía digital, desde la composición hasta la edición básica. Un experto te guiará en los primeros pasos para capturar imágenes increíbles."
   },
   {
     id: "tres", 
-    titulo: "spring party",
+    titulo: "Feria de Innovación Tecnológica",
     fechaHora: "15 de noviembre, 09:00 hrs.",
-    lugar: "Fundo El Rebaño, Viña del Mar, Valparaíso",
+    lugar: "Gimnasio Tech-Hub, Santiago",
     valor: "$5.000",
     imagen: "img/evento_4.jpeg",
-    descripcion: "fiesta"
+    descripcion: "Descubre las últimas tendencias en tecnología. Habrá demostraciones en vivo, charlas con líderes de la industria y la oportunidad de conectar con la comunidad tech."
   }
 ];
-
 function cargarEventos() {
     const contenedorEventos = document.getElementById("eventos-container");
     if (contenedorEventos) {
@@ -68,7 +66,7 @@ function cargarEventos() {
         eventos.forEach(evento => {
             htmlCards += `
                 <div class="col">
-                    <a href="detalles_evento.html?id=${evento.id}" class="card h-100 text-decoration-none text-dark eventos-format">
+                    <a href="detalles_evento.html?id=${evento.id}" target="blank" class="card h-100 text-decoration-none text-dark">
                         <img src="${evento.imagen}" class="card-img-top" alt="${evento.titulo}">
                         <div class="card-body">
                             <h5 class="card-title">${evento.titulo}</h5>
@@ -103,14 +101,65 @@ function cargarDetalleEvento() {
         document.getElementById("detalle-descripcion").textContent = "Lo sentimos, el evento que buscas no existe.";
     }
 }
+
+// --- NUEVAS FUNCIONES DE COMUNIDAD ---
+function cargarComentarios() {
+    const muroComentarios = document.getElementById("muro-comentarios");
+    if (muroComentarios) {
+        const comentarios = JSON.parse(localStorage.getItem('comentarios')) || [];
+        muroComentarios.innerHTML = '';
+        comentarios.forEach(comentario => {
+            const cardHtml = `
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">${comentario.nombre}</h5>
+                        <p class="card-text">${comentario.mensaje}</p>
+                        <p class="card-text"><small class="text-muted">${comentario.fecha}</small></p>
+                    </div>
+                </div>
+            `;
+            muroComentarios.innerHTML += cardHtml;
+        });
+    }
+}
+function publicarComentario(event) {
+    event.preventDefault();
+    const nombreInput = document.getElementById('comentario-nombre');
+    const mensajeInput = document.getElementById('comentario-mensaje');
+    
+    if (nombreInput.value.trim() === '' || mensajeInput.value.trim() === '') {
+        alert('Por favor, completa todos los campos.');
+        return;
+    }
+    const comentarios = JSON.parse(localStorage.getItem('comentarios')) || [];
+    const nuevoComentario = {
+        id: Date.now(),
+        nombre: nombreInput.value.trim(),
+        mensaje: mensajeInput.value.trim(),
+        fecha: new Date().toLocaleString()
+    };
+    comentarios.push(nuevoComentario);
+    localStorage.setItem('comentarios', JSON.stringify(comentarios));
+    cargarComentarios();
+    nombreInput.value = '';
+    mensajeInput.value = '';
+}
 document.addEventListener('DOMContentLoaded', () => {
-    if (window.location.pathname.endsWith('index.html')) {
+    const path = window.location.pathname;
+    if (path.endsWith('index.html')) {
         countdown();
     }
-    if (window.location.pathname.endsWith('eventos.html')) {
+    if (path.endsWith('eventos.html')) {
         cargarEventos();
     }
-    if (window.location.pathname.endsWith('detalles_evento.html')) {
+    if (path.endsWith('detalles_evento.html')) {
         cargarDetalleEvento();
+    }
+    if (path.endsWith('comunidad.html')) {
+        cargarComentarios();
+        const form = document.getElementById('comentario-form');
+        if (form) {
+            form.addEventListener('submit', publicarComentario);
+        }
     }
 });
