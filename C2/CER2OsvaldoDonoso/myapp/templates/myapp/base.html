@@ -19,11 +19,11 @@
                 <li class="nav-item"><a href="{% url 'lista_eventos' %}" class="nav-link">Eventos</a></li>
                 <li class="nav-item"><a href="{% url 'comunidad' %}" class="nav-link">Comunidad</a></li>
                 {% if user.is_authenticated %}
-                    <li class="nav-item"><a href="{% url 'mis_registros' %}" class="nav-link">Mis Registros (REQ07)</a></li>
+                    <li class="nav-item"><a href="{% url 'mis_registros' %}" class="nav-link">Mis Registros </a></li>
                     <li class="nav-item"><a href="{% url 'logout' %}" class="nav-link btn btn-danger btn-sm text-white ms-2">Cerrar Sesión</a></li>
                 {% else %}
                     <li class="nav-item"><a href="{% url 'login' %}" class="nav-link btn btn-primary btn-sm text-white ms-2">Iniciar Sesión</a></li>
-                    <li class="nav-item"><a href="{% url 'register' %}" class="nav-link btn btn-success btn-sm text-white ms-2">Registrarse (REQ04)</a></li>
+                    <li class="nav-item"><a href="{% url 'register' %}" class="nav-link btn btn-success btn-sm text-white ms-2">Registrarse </a></li>
                 {% endif %}
             </ul>
         </div>

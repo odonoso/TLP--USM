@@ -33,11 +33,11 @@
                         {% csrf_token %}
                         {% if user|is_registered:evento %}
                             <button type="submit" class="btn btn-lg w-100 btn-danger">
-                                Anular Registro (REQ07)
+                                Anular Registro 
                             </button>
                         {% elif evento.plazas_disponibles > 0 %}
                             <button type="submit" class="btn btn-lg w-100 btn-success">
-                                Registrarse Ahora (REQ06)
+                                Registrarse Ahora 
                             </button>
                         {% else %}
                             <button type="button" class="btn btn-lg w-100 btn-secondary" disabled>
