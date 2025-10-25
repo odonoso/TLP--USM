@@ -1,0 +1,41 @@
+{% extends "myapp/base.html" %}
+{% load static %}
+
+{% block title %}Mis Registros{% endblock title %}
+
+{% block content %}
+<main class="container py-5">
+    <h2 class="text-center mb-5">Mis Eventos Registrados (REQ07)</h2>
+
+    <div id="registros-container" class="row row-cols-1 row-cols-md-2 g-4">
+        {% for registro in mis_registros %}
+        {% with evento=registro.evento %}
+        <div class="col">
+            <div class="card h-100 shadow-sm border-success">
+                <div class="card-header bg-success text-white">
+                    Registrado el {{ registro.fecha_registro|date:"d M Y H:i" }}
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ evento.titulo }}</h5>
+                    <p class="card-text text-muted">
+                        **Fecha del Evento:** {{ evento.fecha_hora|date:"d M Y H:i" }} <br>
+                        **Lugar:** {{ evento.lugar }}
+                    </p>
+                    <a href="{% url 'detalle_evento' evento.pk %}" class="btn btn-outline-success mt-auto">
+                        Ver Detalles / Anular Registro
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endwith %}
+        {% empty %}
+        <div class="col-12 text-center">
+            <div class="alert alert-info">
+                <p class="lead">Aún no tienes registros a eventos futuros.</p>
+                <a href="{% url 'lista_eventos' %}" class="btn btn-info">Explorar Eventos</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</main>
+{% endblock content %}

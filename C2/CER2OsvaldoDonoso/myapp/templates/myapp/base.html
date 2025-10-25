@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Smart Events{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/mis_estilos.css' %}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark px-4">
+        <a href="{% url 'home' %}" class="navbar-brand">Smart Events</a>
+        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#mNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a href="{% url 'lista_eventos' %}" class="nav-link">Eventos</a></li>
+                <li class="nav-item"><a href="{% url 'comunidad' %}" class="nav-link">Comunidad</a></li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item"><a href="{% url 'mis_registros' %}" class="nav-link">Mis Registros (REQ07)</a></li>
+                    <li class="nav-item"><a href="{% url 'logout' %}" class="nav-link btn btn-danger btn-sm text-white ms-2">Cerrar Sesión</a></li>
+                {% else %}
+                    <li class="nav-item"><a href="{% url 'login' %}" class="nav-link btn btn-primary btn-sm text-white ms-2">Iniciar Sesión</a></li>
+                    <li class="nav-item"><a href="{% url 'register' %}" class="nav-link btn btn-success btn-sm text-white ms-2">Registrarse (REQ04)</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    <div class="container mt-3">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    {% block content %}{% endblock content %}
+
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+    <script src="{% static 'js/mi_javascript.js' %}"></script>
+    {% block scripts %}{% endblock scripts %}
+</body>
+</html>

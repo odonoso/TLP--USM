@@ -1,0 +1,41 @@
+{% extends "myapp/base.html" %}
+{% load static %}
+
+{% block title %}Comunidad - Smart Events{% endblock title %}
+
+{% block content %}
+<main class="container py-5">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <h2 class="text-center mb-4">Comunidad</h2>
+            
+            {% if user.is_authenticated %}
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h4 class="card-title">Publicar Mensaje</h4>
+                        <form method="POST" action="{% url 'comunidad' %}">
+                            {% csrf_token %}
+                            <p class="text-muted">Publicando como: {{ user.username }}</p>
+                            <div class="mb-3">
+                                <label for="comentario-mensaje" class="form-label">Mensaje</label>
+                                <textarea class="form-control" id="comentario-mensaje" name="mensaje" rows="3" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Publicar</button>
+                        </form>
+                    </div>
+                </div>
+            {% else %}
+                <div class="alert alert-warning text-center">
+                    <p class="mb-0">Debes <a href="{% url 'login' %}?next={% url 'comunidad' %}">Iniciar Sesión</a> para participar en la comunidad.</p>
+                </div>
+            {% endif %}
+
+            <h3 class="mb-4">Muro</h3>
+            <div id="muro-comentarios">
+                <p class="text-muted">La funcionalidad completa de los comentarios debe ser implementada en esta sección.</p>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock content %}
+</html>

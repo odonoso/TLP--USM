@@ -1,0 +1,63 @@
+{% extends "myapp/base.html" %}
+{% load static custom_filters %}
+
+{% block title %}Detalles de {{ evento.titulo }}{% endblock title %}
+
+{% block content %}
+<main class="container py-5">
+    <div class="row">
+        <div class="col-md-6 text-center">
+            <img id="detalle-imagen" src="{% static evento.imagen_url %}" class="img-fluid rounded" alt="Imagen del evento">
+        </div>
+        <div class="col-md-6">
+            <h1 id="detalle-titulo-main">{{ evento.titulo }}</h1>
+            <p><strong>Fecha y Hora:</strong> <span id="detalle-fecha">{{ evento.fecha_hora|date:"d M Y H:i" }}</span></p>
+            <p><strong>Lugar:</strong> <span id="detalle-lugar">{{ evento.lugar }}</span></p>
+            <p><strong>Valor:</strong> <span id="detalle-valor">${{ evento.valor|floatformat:0 }}</span></p>
+            <p><strong>Plazas Disponibles:</strong> 
+                <span id="detalle-plazas" class="fw-bold">
+                    {% if evento.plazas_disponibles > 0 %}
+                        {{ evento.plazas_disponibles }}
+                    {% else %}
+                        Agotadas
+                    {% endif %}
+                </span>
+            </p>
+            <hr>
+            <h3>Descripción</h3>
+            <p id="detalle-descripcion">{{ evento.descripcion|linebreaksbr }}</p>
+
+            {% if user.is_authenticated %}
+                {% if evento.fecha_hora|date:"YmdHi" > 'now'|date:"YmdHi" %}
+                    <form method="POST" action="{% url 'toggle_registro' evento.pk %}" class="d-inline w-100">
+                        {% csrf_token %}
+                        {% if user|is_registered:evento %}
+                            <button type="submit" class="btn btn-lg w-100 btn-danger">
+                                Anular Registro (REQ07)
+                            </button>
+                        {% elif evento.plazas_disponibles > 0 %}
+                            <button type="submit" class="btn btn-lg w-100 btn-success">
+                                Registrarse Ahora (REQ06)
+                            </button>
+                        {% else %}
+                            <button type="button" class="btn btn-lg w-100 btn-secondary" disabled>
+                                Plazas Agotadas
+                            </button>
+                        {% endif %}
+                    </form>
+                {% else %}
+                    <button type="button" class="btn btn-lg w-100 btn-info" disabled>
+                        Evento Finalizado
+                    </button>
+                {% endif %}
+            {% else %}
+                <div class="alert alert-info mt-3 text-center">
+                    <p class="mb-0">Debes <a href="{% url 'login' %}?next={{ request.path }}">Iniciar Sesión</a> o <a href="{% url 'register' %}">Registrarte</a> para registrarte en el evento.</p>
+                </div>
+            {% endif %}
+
+            <a href="{% url 'lista_eventos' %}" class="btn btn-secondary mt-3">Volver al listado</a>
+        </div>
+    </div>
+</main>
+{% endblock content %}

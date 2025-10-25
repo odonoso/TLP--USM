@@ -1,0 +1,40 @@
+{% extends "myapp/base.html" %}
+{% load static %}
+
+{% block title %}Inicio - Smart Events{% endblock title %}
+
+{% block content %}
+<header>
+    <section class="hero-section">
+        <div class="container text-center py-5">
+            {% if proximo_evento %}
+                <img src="{% static proximo_evento.imagen_url %}" alt="imagen del evento" style="max-width: 100%; height: auto;">
+                <h2 id="mensaje" class="mt-4">¡Próximo Evento!</h2>
+                <div id="countdown-container" class="countdown-container card mx-auto my-3" style="max-width: 500px;">
+                    <div class="card-body">
+                        <div class="row text-center">
+                            <div class="col-3"><span id="days" class="display-4">0</span><p>días</p></div>
+                            <div class="col-3"><span id="hours" class="display-4">0</span><p>horas</p></div>
+                            <div class="col-3"><span id="minutes" class="display-4">0</span><p>minutos</p></div>
+                            <div class="col-3"><span id="seconds" class="display-4">0</span><p>segundos</p></div>
+                        </div>
+                    </div>
+                </div>
+                <h1>{{ proximo_evento.titulo }}</h1>
+                <p>{{ proximo_evento.descripcion|truncatechars:150 }}</p>
+                <a href="{% url 'detalle_evento' proximo_evento.pk %}" class="btn btn-warning btn-lg mt-3">Ver Detalles</a>
+            {% else %}
+                <h2 class="mt-5">Por ahora no hay eventos próximos.</h2>
+                <a href="{% url 'lista_eventos' %}" class="btn btn-warning btn-lg mt-3">Ver Eventos</a>
+            {% endif %}
+        </div>
+    </section>
+</header>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    // Pasar la fecha al script mi_javascript.js para el countdown
+    var eventDate = "{{ proximo_evento.fecha_hora|date:'M d, Y H:i:s' }}";
+</script>
+{% endblock scripts %}
