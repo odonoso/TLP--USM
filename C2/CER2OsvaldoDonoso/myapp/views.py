@@ -8,17 +8,27 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.utils.timezone import now 
-
+from django.contrib.auth.decorators import login_required 
+from django.urls import reverse
+from django.utils import timezone
 from .models import Evento, Registro
-from .forms import UserRegisterForm # Asegúrate de que este archivo exista
+from .forms import UserRegisterForm 
+from .models import Evento, Registro, Comentario 
+from .forms import UserRegisterForm, ComentarioForm
 
-# REQ03: Vista de la página de inicio
+
 def home_view(request):
-    # CORRECCIÓN: Filtra por eventos cuya fecha_hora es mayor o igual (gte) a la hora actual.
-    proximo_evento = Evento.objects.filter(fecha_hora__gte=now()).order_by('fecha_hora').first()
-    return render(request, 'myapp/index.html', {'proximo_evento': proximo_evento})
+    # Busca el evento más próximo cuya fecha sea mayor a la actual.
+    proximo_evento = Evento.objects.filter(
+        fecha_hora__gt=timezone.now()
+    ).order_by('fecha_hora').first()
 
-# REQ03: Listado de Eventos
+    context = {
+        'proximo_evento': proximo_evento
+    }
+    return render(request, 'myapp/home.html', context)
+
+
 class EventoListView(ListView):
     model = Evento
     template_name = 'myapp/eventos.html'
@@ -27,13 +37,13 @@ class EventoListView(ListView):
     def get_queryset(self):
         return Evento.objects.filter(fecha_hora__gte=now()).order_by('fecha_hora')
 
-# REQ03: Detalles de Evento
+
 class EventoDetailView(DetailView):
     model = Evento
     template_name = 'myapp/detalles_evento.html'
     context_object_name = 'evento'
 
-# REQ06 (Registrarse) y REQ07 (Anular Registro)
+
 class RegistroToggleView(LoginRequiredMixin, DetailView):
     model = Evento
     
@@ -43,11 +53,11 @@ class RegistroToggleView(LoginRequiredMixin, DetailView):
         registro_existente = Registro.objects.filter(usuario=request.user, evento=evento).first()
 
         if registro_existente:
-            # REQ07: Anular Registro
+            
             registro_existente.delete()
             messages.success(request, f'Has anulado tu registro para "{evento.titulo}".')
         else:
-            # REQ06: Registrarse
+            
             if evento.plazas_disponibles > 0:
                 Registro.objects.create(usuario=request.user, evento=evento)
                 messages.success(request, f'¡Registro exitoso para "{evento.titulo}"!')
@@ -56,7 +66,7 @@ class RegistroToggleView(LoginRequiredMixin, DetailView):
 
         return HttpResponseRedirect(evento.get_absolute_url())
 
-# REQ07: Cliente registrado: Ver el listado de eventos a los que asistirá
+
 class MisRegistrosListView(LoginRequiredMixin, ListView):
     model = Registro
     template_name = 'myapp/mis_registros.html'
@@ -68,7 +78,7 @@ class MisRegistrosListView(LoginRequiredMixin, ListView):
             evento__fecha_hora__gte=now() 
         ).select_related('evento').order_by('evento__fecha_hora')
 
-# REQ04: Registro de Usuarios
+
 class RegisterView(CreateView):
     form_class = UserRegisterForm
     template_name = 'registration/register.html' 
@@ -80,6 +90,32 @@ class RegisterView(CreateView):
         messages.success(self.request, '¡Registro exitoso! Ya has iniciado sesión.')
         return super().form_valid(form)
 
-# Vista para la comunidad
+
 def comunidad_view(request):
     return render(request, 'myapp/comunidad.html')
+
+@login_required 
+def comunidad_view(request):
+    
+    comentarios = Comentario.objects.all()
+    
+    if request.method == 'POST':
+        
+        form = ComentarioForm(request.POST)
+        if form.is_valid():
+            
+            nuevo_comentario = form.save(commit=False)
+            nuevo_comentario.usuario = request.user
+            nuevo_comentario.save()
+            messages.success(request, 'Mensaje publicado con éxito.')
+            
+            return HttpResponseRedirect(reverse('comunidad')) 
+    else:
+        
+        form = ComentarioForm()
+    
+    context = {
+        'comentarios': comentarios,
+        'form': form
+    }
+    return render(request, 'myapp/comunidad.html', context)

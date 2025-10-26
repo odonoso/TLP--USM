@@ -15,10 +15,13 @@
                         <h4 class="card-title">Publicar Mensaje</h4>
                         <form method="POST" action="{% url 'comunidad' %}">
                             {% csrf_token %}
-                            <p class="text-muted">Publicando como: {{ user.username }}</p>
+                            <p class="text-muted">Publicando como: <strong>{{ user.username }}</strong></p>
+                            
                             <div class="mb-3">
-                                <label for="comentario-mensaje" class="form-label">Mensaje</label>
-                                <textarea class="form-control" id="comentario-mensaje" name="mensaje" rows="3" required></textarea>
+                                {{ form.mensaje }} 
+                                {% if form.mensaje.errors %}
+                                    <small class="text-danger">{{ form.mensaje.errors }}</small>
+                                {% endif %}
                             </div>
                             <button type="submit" class="btn btn-primary w-100">Publicar</button>
                         </form>
@@ -30,12 +33,25 @@
                 </div>
             {% endif %}
 
-            <h3 class="mb-4">Muro</h3>
+            <h3 class="mb-4">Muro de Comentarios</h3>
             <div id="muro-comentarios">
-                <p class="text-muted">La funcionalidad completa de los comentarios debe ser implementada en esta sección.</p>
+                {% for comentario in comentarios %}
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title mb-1">
+                                <strong>{{ comentario.usuario.username }}</strong>
+                            </h5>
+                            <h6 class="card-subtitle mb-2 text-muted">
+                                {{ comentario.fecha_publicacion|date:"d M Y H:i" }}
+                            </h6>
+                            <p class="card-text">{{ comentario.mensaje|linebreaksbr }}</p>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p class="text-muted text-center">Sé el primero en publicar un mensaje en la comunidad.</p>
+                {% endfor %}
             </div>
         </div>
     </div>
 </main>
 {% endblock content %}
-</html>

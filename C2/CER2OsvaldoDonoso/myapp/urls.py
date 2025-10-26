@@ -1,25 +1,19 @@
-# myapp/urls.py
-from django.urls import path
-from .views import (
-    home_view, 
-    EventoListView, 
-    EventoDetailView, 
-    RegistroToggleView, 
-    MisRegistrosListView, 
-    comunidad_view,
-    RegisterView
-)
+
+from django.urls import path, include
+from django.contrib.auth import views as auth_views
+from . import views
+from .views import EventoListView, EventoDetailView, RegisterView, RegistroToggleView, MisRegistrosListView
 
 urlpatterns = [
-    path('', home_view, name='home'),
-    path('eventos/', EventoListView.as_view(), name='lista_eventos'),
-    path('eventos/<int:pk>/', EventoDetailView.as_view(), name='detalle_evento'), # REQ03
     
-    # Rutas para Cliente Registrado
-    path('eventos/<int:pk>/toggle_registro/', RegistroToggleView.as_view(), name='toggle_registro'), # REQ06/REQ07
-    path('mis-registros/', MisRegistrosListView.as_view(), name='mis_registros'), # REQ07
-    path('comunidad/', comunidad_view, name='comunidad'),
-    
-    # Autenticación
-    path('register/', RegisterView.as_view(), name='register'), # REQ04
+    path('', views.home_view, name='home'), 
+    path('eventos/', EventoListView.as_view(), name='eventos'),
+    path('eventos/<int:pk>/', EventoDetailView.as_view(), name='detalle_evento'),
+    path('register/', RegisterView.as_view(), name='register'),
+    path('comunidad/', views.comunidad_view, name='comunidad'),
+    path('evento/toggle/<int:pk>/', RegistroToggleView.as_view(), name='registro_toggle'),
+    path('mis-eventos/', MisRegistrosListView.as_view(), name='mis_registros'),
+    path('accounts/login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
+    path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
+
 ]

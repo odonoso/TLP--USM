@@ -16,12 +16,12 @@
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">{{ evento.titulo }}</h5>
                             <p class="card-text text-muted">
-                                **Fecha:** {{ evento.fecha_hora|date:"d M Y H:i" }} <br>
-                                **Lugar:** {{ evento.lugar }}
+                                Fecha: {{ evento.fecha_hora|date:"d M Y H:i" }} <br>
+                                Lugar: {{ evento.lugar }}
                             </p>
                             <p class="card-text">
-                                **Valor:** ${{ evento.valor|floatformat:0 }}<br>
-                                **Plazas:** {% if evento.plazas_disponibles > 0 %}
+                                Valor: ${{ evento.valor|floatformat:0 }}<br>
+                                Plazas: {% if evento.plazas_disponibles > 0 %}
                                     <span class="badge bg-success">{{ evento.plazas_disponibles }} Disponibles</span>
                                 {% else %}
                                     <span class="badge bg-danger">Agotadas</span>

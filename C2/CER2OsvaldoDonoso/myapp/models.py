@@ -14,13 +14,11 @@ class Evento(models.Model):
     valor = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     cupo_total = models.IntegerField(default=0)
     
-    # REQ08: Propiedad para calcular plazas disponibles
     @property
     def plazas_disponibles(self):
         inscritos = self.registro_set.count()
         return max(0, self.cupo_total - inscritos)
 
-    # REQ08: Propiedad para calcular el dinero recaudado
     @property
     def dinero_recaudado(self):
         return self.registro_set.count() * self.valor
@@ -42,3 +40,16 @@ class Registro(models.Model):
 
     def __str__(self):
         return f'{self.usuario.username} registrado en {self.evento.titulo}'
+
+class Comentario(models.Model):
+
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    mensaje = models.TextField()
+    fecha_publicacion = models.DateTimeField(default=now)
+    
+    class Meta:
+        ordering = ['-fecha_publicacion'] 
+        verbose_name_plural = "Comentarios"
+
+    def __str__(self):
+        return f'Comentario de {self.usuario.username} - {self.fecha_publicacion.strftime("%Y-%m-%d")}'

@@ -17,13 +17,13 @@ class EventoAdmin(admin.ModelAdmin):
         'lugar', 
         'valor', 
         'cupo_total', 
-        'plazas_disponibles', # REQ08
-        'total_asistentes', # REQ08
-        'dinero_recaudado' # Staff: dinero recaudado 
+        'plazas_disponibles', 
+        'total_asistentes', 
+        'dinero_recaudado' 
     )
     search_fields = ('titulo', 'lugar')
     list_filter = ('fecha_hora', 'lugar')
-    inlines = [RegistroInline] # Listado de asistentes (REQ08)
+    inlines = [RegistroInline] 
     
     readonly_fields = ('plazas_disponibles', 'dinero_recaudado', 'total_asistentes')
 

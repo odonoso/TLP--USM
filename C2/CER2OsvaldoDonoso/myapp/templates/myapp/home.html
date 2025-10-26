@@ -25,16 +25,17 @@
                 <a href="{% url 'detalle_evento' proximo_evento.pk %}" class="btn btn-warning btn-lg mt-3">Ver Detalles</a>
             {% else %}
                 <h2 class="mt-5">Por ahora no hay eventos próximos.</h2>
-                <a href="{% url 'lista_eventos' %}" class="btn btn-warning btn-lg mt-3">Ver Eventos</a>
+                <a href="{% url 'eventos' %}" class="btn btn-warning btn-lg mt-3">Ver Eventos</a>
             {% endif %}
         </div>
     </section>
 </header>
 {% endblock content %}
 
-{% block scripts %}
-<script>
-    // Pasar la fecha al script mi_javascript.js para el countdown
-    var eventDate = "{{ proximo_evento.fecha_hora|date:'M d, Y H:i:s' }}";
-</script>
-{% endblock scripts %}
+{% block extra_js_vars %}
+{% if proximo_evento %}
+    <script>
+        var eventDate = "{{ proximo_evento.fecha_hora|date:'M d, Y H:i:s' }}";
+    </script>
+{% endif %}
+{% endblock extra_js_vars %}
