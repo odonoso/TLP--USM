@@ -8,6 +8,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.utils.timezone import now 
+from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required 
 from django.urls import reverse
 from django.utils import timezone
@@ -90,6 +91,22 @@ class RegisterView(CreateView):
         messages.success(self.request, '¡Registro exitoso! Ya has iniciado sesión.')
         return super().form_valid(form)
 
+@login_required
+def toggle_registro_view(request, pk):
+    if request.method == 'POST':
+        
+        evento = get_object_or_404(Evento, pk=pk)
+        user = request.user
+
+        try:
+            registro = Registro.objects.get(usuario=user, evento=evento)
+            registro.delete()
+        except Registro.DoesNotExist:
+            Registro.objects.create(usuario=user, evento=evento) 
+        
+        return redirect('detalle_evento', pk=evento.pk)
+
+    return redirect('detalle_evento', pk=pk)
 
 def comunidad_view(request):
     return render(request, 'myapp/comunidad.html')

@@ -29,8 +29,10 @@
 
             {% if user.is_authenticated %}
                 {% if evento.fecha_hora|date:"YmdHi" > 'now'|date:"YmdHi" %}
+                    
                     <form method="POST" action="{% url 'toggle_registro' evento.pk %}" class="d-inline w-100">
                         {% csrf_token %}
+                        
                         {% if user|is_registered:evento %}
                             <button type="submit" class="btn btn-lg w-100 btn-danger">
                                 Anular Registro 

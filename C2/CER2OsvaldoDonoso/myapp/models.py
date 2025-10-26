@@ -1,5 +1,5 @@
 # myapp/models.py
-
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
@@ -30,9 +30,10 @@ class Evento(models.Model):
         return reverse('detalle_evento', args=[str(self.id)])
 
 class Registro(models.Model):
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
-    evento = models.ForeignKey(Evento, on_delete=models.CASCADE)
-    fecha_registro = models.DateTimeField(default=now)
+    # This is why the field is called 'usuario' and not 'user'
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) 
+    evento = models.ForeignKey('Evento', on_delete=models.CASCADE)
+    fecha_registro = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         unique_together = ('usuario', 'evento') 
